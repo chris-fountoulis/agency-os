@@ -62,7 +62,8 @@ class SessionLogTest(unittest.TestCase):
             self.assertTrue(path.endswith("08 - Sessions/2026-10-30 Sessions, alex-rivera.md"))
             with open(path, encoding="utf-8") as fh:
                 text = fh.read()
-            self.assertIn("## 14:05 · session 1a2b3c4d · northwind", text)
+            self.assertIn("written.\n\n## 14:05 · session 1a2b3c4d · northwind", text,
+                          "a blank line separates the intro from the first entry")
             self.assertIn("- vault/05 - Meetings/Meetings MOC.md", text)
             self.assertNotIn("Hunter2-Bakery!9", text)
             self.assertIn("password: [REDACTED]", text)

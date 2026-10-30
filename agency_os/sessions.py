@@ -234,7 +234,7 @@ def session_log(payload, vault_root, person=None, now=None):
             "person: {}".format(who), "---", "", "# Sessions {}, {}".format(day, who), "",
             "\u2191 [[{}]]".format(_home_name(vault)), "",
             "Written by the `agency-os session-log` Stop hook. One entry per Claude Code turn: the prompt, "
-            "the files changed and the closing summary. Secrets are redacted before anything is written.", "",
+            "the files changed and the closing summary. Secrets are redacted before anything is written.", "", "",
         ]))
 
     block = ["## {} \u00b7 session {} \u00b7 {}".format(now.strftime("%H:%M"), sid, os.path.basename(cwd.rstrip("/\\")) or "-"),
