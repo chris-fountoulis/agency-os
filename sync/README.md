@@ -1,8 +1,11 @@
+<p align="right"><a href="../README.md">Back to README</a></p>
+
 # sync: keep a shared vault in step with git
 
 Optional. `vault-sync.sh` is one run of: wait until the vault stops changing, commit, pull
 teammates' changes, push. Run it every minute in the background and a team of several people
-shares one vault through any git remote without thinking about it.
+shares one vault through any git remote without thinking about it. For the full team workflow
+see [docs/team-setup.md](../docs/team-setup.md).
 
 | File | What it is |
 |---|---|
@@ -21,22 +24,29 @@ tail -f ~/.agency-os/sync.log            # watch it
 
 ## What it will not commit
 
+> [!IMPORTANT]
+> Held-back files stay in your working tree untracked. Nothing is deleted.
+
 - **Files over 50 MB** (`AGENCY_OS_SYNC_MAX_BYTES`). Git hosts reject large files, and a vault
   is notes, not media.
 - **Files whose new lines look like credentials**: provider API keys, GitHub tokens, cloud access
-  keys, private key blocks. The file stays in your working tree, untracked, and you get one
-  notification per distinct problem.
+  keys, private key blocks. You get one notification per distinct problem.
 
 ## How it resolves changes from teammates
 
-- Behind only: fast-forward.
-- Ahead and behind: rebase local commits on top of the remote, with autostash.
-- A conflict only in generated files (the All Notes Index, or anything matching
-  `AGENCY_OS_SYNC_GENERATED`): the remote copy wins, the rebase continues, and the index is
-  regenerated if `agency-os` is on the PATH.
-- A real conflict: the rebase is aborted, nothing is lost, and you get a notification to
-  resolve it by hand. Later runs keep committing locally and retry the rebase; you are
-  notified once, not every minute.
+| Situation | What the sync does |
+|---|---|
+| Behind only | Fast-forward |
+| Ahead and behind | Rebase local commits on top of the remote, with autostash |
+| Conflict only in generated files (the All Notes Index, or anything matching `AGENCY_OS_SYNC_GENERATED`) | The remote copy wins, the rebase continues and the index is regenerated if `agency-os` is on the PATH |
+| A real conflict | The rebase is aborted, nothing is lost and you get one notification to resolve it by hand. Later runs keep committing locally and retry the rebase |
 
-It never force-pushes, never touches a repo in the middle of a merge or rebase, and skips a
-detached HEAD.
+> [!NOTE]
+> It never force-pushes, never touches a repo in the middle of a merge or rebase and skips a
+> detached HEAD.
+
+---
+
+<p align="right"><a href="../README.md">Back to README</a></p>
+
+<p align="center">Built by <a href="https://chrisfountoulis.com">Chris Fountoulis</a> at <a href="https://growthofinfluence.com">Growth Of Influence</a>.</p>

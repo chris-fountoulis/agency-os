@@ -1,9 +1,17 @@
+<p align="right"><a href="../README.md">Back to README</a></p>
+
 # Team setup: several people, one vault
 
 The vault is a git repository. Each person has a clone, opens it in Obsidian, and runs Claude
 Code with the agency-os plugin from the project folder that contains it. Sessions read the same
 memory, session logs land in per-person files so they never conflict, and a background sync
 keeps every clone current.
+
+- [1. One person creates the vault](#1-one-person-creates-the-vault)
+- [2. Everyone else joins](#2-everyone-else-joins)
+- [How conflicts are avoided](#how-conflicts-are-avoided)
+- [Rules worth agreeing on day one](#rules-worth-agreeing-on-day-one)
+- [Lint in CI](#lint-in-ci)
 
 ## 1. One person creates the vault
 
@@ -18,7 +26,8 @@ git remote add origin git@github.com:acme-agency/acme-brain.git   # a PRIVATE re
 git push -u origin main
 ```
 
-Keep the repository private. A company vault holds client facts by design.
+> [!WARNING]
+> Keep the repository private. A company vault holds client facts by design.
 
 Fill in `CLAUDE.md` (who you are, the hard rules you have learned) before inviting anyone. Every
 session on the team reads it.
@@ -55,7 +64,7 @@ Then, once per person:
 | The index | Generated; the sync resolves an index-only conflict by itself and regenerates it |
 | Notes | Small, one subject each, updated in place: two people rarely edit the same lines |
 
-When two people do edit the same lines, the sync rebase stops, nothing is lost, and the person
+When two people do edit the same lines the sync rebase stops, nothing is lost, and the person
 whose run hit it gets one notification to resolve it in their editor.
 
 ## Rules worth agreeing on day one
@@ -69,6 +78,8 @@ whose run hit it gets one notification to resolve it in their editor.
 - **Never delete a note.** Move it to `99 - Archive/`; links keep resolving and history stays.
 
 ## Lint in CI
+
+The same gate this repository uses on its own template vault, for your vault repo:
 
 ```yaml
 name: vault
@@ -87,3 +98,9 @@ jobs:
       - run: agency-os lint vault --format github
       - run: agency-os index vault --check
 ```
+
+---
+
+<p align="right"><a href="../README.md">Back to README</a></p>
+
+<p align="center">Built by <a href="https://chrisfountoulis.com">Chris Fountoulis</a> at <a href="https://growthofinfluence.com">Growth Of Influence</a>.</p>

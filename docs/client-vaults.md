@@ -1,3 +1,5 @@
+<p align="right"><a href="../README.md">Back to README</a></p>
+
 # Client vaults
 
 `agency-os spinout` turns one client's slice of the company vault into a standalone Obsidian
@@ -5,6 +7,13 @@ vault: their notes, the projects and meetings that mention them, and the SOPs an
 those link to. Nothing about anyone else. Use it to hand a client their documentation, to give a
 contractor exactly one account, or to seed a per-client vault that a client-facing Claude Code
 setup can read without seeing the rest of the company.
+
+| Step | What happens |
+|---|---|
+| [Select](#what-gets-selected) | The client note, what links to it and the knowledge it uses |
+| [Scrub](#what-gets-scrubbed) | Dropped links, denied terms, other clients' names, credentials |
+| [Verify](#the-leak-check) | Every output file re-scanned; any hit fails the run |
+| [Deliver](#what-you-get) | A standalone vault that passes `agency-os lint --strict` |
 
 ```bash
 agency-os spinout vault --client "Acme Bakery" --out ../acme-bakery-vault \
@@ -25,7 +34,7 @@ they are company-wide by nature.
 
 ## What gets scrubbed
 
-In this order, for every selected note:
+For every selected note, in this order:
 
 1. **Links to notes left behind become plain text.** No dangling links, no hint of what was
    there beyond the visible text, which the next steps scrub.
@@ -45,7 +54,7 @@ File names that contain a denied term are renamed, and links to them are rewritt
 
 ## The leak check
 
-After writing, every file in the output is scanned again for every denied term and every
+After writing every file in the output is scanned again for every denied term and every
 credential shape. Any hit is listed and the command exits `1`. A clean run says so:
 
 ```text
@@ -66,6 +75,15 @@ does name them.
 
 ## Before you share it
 
-Read every note once. The scrub removes names it knows about; it cannot know that a sentence
-about a client's churn risk is not for their eyes. Team members' names are not scrubbed unless
-you list them: put them in a denylist file if the client should not see who did what.
+> [!WARNING]
+> Read every note once. The scrub removes names it knows about. It cannot know that a sentence
+> about a client's churn risk is not for their eyes.
+
+Team members' names are not scrubbed unless you list them. Put them in a denylist file if the
+client should not see who did what.
+
+---
+
+<p align="right"><a href="../README.md">Back to README</a></p>
+
+<p align="center">Built by <a href="https://chrisfountoulis.com">Chris Fountoulis</a> at <a href="https://growthofinfluence.com">Growth Of Influence</a>.</p>
