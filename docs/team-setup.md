@@ -41,7 +41,7 @@ git clone git@github.com:acme-agency/acme-brain.git ~/work/acme-brain
 Then, once per person:
 
 1. **Obsidian:** Open folder as vault, pick `~/work/acme-brain/vault`. The shared settings in
-   `.obsidian/` (templates folder, graph colours, the CSS snippet, bookmarks) come with the
+   `.obsidian/` (templates folder, graph colours , the CSS snippet, bookmarks) come with the
    clone; per-person layout (`workspace.json`) is gitignored.
 2. **Claude Code plugin:**
    ```text
@@ -73,13 +73,13 @@ whose run hit it gets one notification to resolve it in their editor.
 - **Lint before push.** `agency-os lint vault` in a pre-push hook or CI. The template vault's own
   CI is a working example: `.github/workflows/ci.yml` in this repository.
 - **No secrets in the vault.** The sync holds back credential-shaped lines and the session logger
-  redacts them, but the rule is the real protection: record where a credential lives, never the
+  redacts them, but the rule is the real protection: record where a credential lives , never the
   value.
 - **Never delete a note.** Move it to `99 - Archive/`; links keep resolving and history stays.
 
 ## Lint in CI
 
-The same gate this repository uses on its own template vault, for your vault repo:
+The same gate this repository uses on its own template vault , for your vault repo:
 
 ```yaml
 name: vault

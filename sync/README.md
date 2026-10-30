@@ -29,7 +29,7 @@ tail -f ~/.agency-os/sync.log            # watch it
 
 - **Files over 50 MB** (`AGENCY_OS_SYNC_MAX_BYTES`). Git hosts reject large files, and a vault
   is notes, not media.
-- **Files whose new lines look like credentials**: provider API keys, GitHub tokens, cloud access
+- **Files whose new lines look like credentials**: provider API keys , GitHub tokens , cloud access
   keys, private key blocks. You get one notification per distinct problem.
 
 ## How it resolves changes from teammates

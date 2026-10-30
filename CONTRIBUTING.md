@@ -2,7 +2,7 @@
 
 # Contributing
 
-Thanks for helping. agency-os is small on purpose: a standard library CLI, a Claude Code plugin
+Thanks for helping. agency-os is small on purpose: a standard library CLI , a Claude Code plugin
 and a template vault. Changes that keep it that way are the easiest to merge.
 
 ## Setup
@@ -47,7 +47,7 @@ Why the existing checks exist and how they are tested is in
 ## Changing the template vault
 
 The template vault is documentation as much as data: it is the example every new team copies.
-Keep the fictional agency consistent (Northwind Studio, its three clients, five people), tag
+Keep the fictional agency consistent (Northwind Studio, its three clients , five people), tag
 example content with `example` so `init --no-examples` can remove it, and make sure
 `init --no-examples` still produces a lint-clean vault (a test checks).
 

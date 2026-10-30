@@ -21,7 +21,7 @@ Short answers to the questions people ask first. The longer story is in
 
 It is a company brain. Personal second-brain setups optimise for one person's thinking. An
 agency needs the opposite: one memory that five people and every Claude Code session share,
-with rules about what goes where, who wrote what and what must never leave the building. The
+with rules about what goes where , who wrote what and what must never leave the building. The
 structure (four hubs, MOCs, open loops register, decision records) and the tooling (lint, session
 logs, client spinouts) are built for that.
 
@@ -34,9 +34,9 @@ writes the same hooks into `.claude/settings.json`, and the CLI works on its own
 
 ### Do I need Obsidian?
 
-The vault is plain Markdown with `[[wikilinks]]`, so everything works without it: Claude Code
-reads and writes the files, lint and the index run anywhere. Obsidian is how people browse it:
-the graph, backlinks, the Home dashboard, templates.
+The vault is plain Markdown with `[[wikilinks]]`, so everything works without it : Claude Code
+reads and wirtes the files, lint and the index run anywhere. Obsidian is how people browse it:
+the graph , backlinks, the Home dashboard , templates.
 
 ### Will the hooks slow my sessions down?
 
@@ -64,7 +64,7 @@ to record where a credential lives, never its value.
 ### Why update facts in place instead of appending?
 
 Because the next session reads the note, not its history. A note that says "budget is X" and,
-three paragraphs later, "update: budget is now Y" forces every reader to work out which one is
+three paragraphs later , "update: budget is now Y" forces every reader to work out which one is
 current, and sessions get it wrong. One current version per fact; git and the session logs keep
 the history.
 
@@ -89,7 +89,7 @@ bash and git (Git Bash works); the background job templates are for macOS and Li
 ### How big can a vault get?
 
 The production vault this was extracted from is about 900 notes across several merged sub-vaults
-and lints in about a second, most of it disk reads. Link resolution is a dictionary lookup, so
+and lints in about a second, most of it disk reads. Link resolution is a dictionary lookup , so
 nothing here is quadratic in the number of notes.
 
 ---

@@ -4,14 +4,14 @@
 
 agency-os is three layers around one folder of Markdown:
 
-1. **The vault**: an Obsidian vault with a fixed spine (numbered folders, four hub nodes, MOCs,
+1. **The vault**: an Obsidian vault with a fixed spine (numbered folders , four hub nodes, MOCs,
    templates) and a written protocol for what goes where.
 2. **The instructions**: `CLAUDE.md` (identity, hard rules, pointers) and `vault-autopilot.md`
    (the capture protocol). They tell every Claude Code session to read the vault first and write
    back what it learns.
 3. **The machinery**: a stdlib Python CLI and a Claude Code plugin that make reading and writing
-   the vault the default instead of a habit: a briefing at session start, a structured log on
-   every Stop, a checkpoint before compaction, lint and an index to keep the graph honest, and an
+   the vault the default instead of a habit : a briefing at session start, a structured log on
+   every Stop , a checkpoint before compaction, lint and an index to keep the graph honest, and an
    optional git sync so a whole team shares one memory.
 
 - [The loop](#the-loop)
@@ -88,8 +88,8 @@ folder with such a vault one level down).
 - The prompt is the last real user turn in the transcript (tool results and meta messages are
   skipped). Files are the `Write`, `Edit`, `MultiEdit` and `NotebookEdit` targets of that turn,
   main thread only.
-- Everything passes through `agency_os.redact` first: keyword-anchored values
-  (`password: ...`), provider key shapes, JWTs, private key blocks, URL credentials, long opaque
+- Everything passes throught `agency_os.redact` first: keyword-anchored values
+  (`password: ...`), provider key shapes, JWTs, private key blocks, URL credentials , long opaque
   strings.
 - Wikilinks that resolve are kept (so the log shows up in backlinks); the rest become plain text,
   so a log can never break lint.
@@ -132,7 +132,7 @@ at all but links to them resolve.
 | `2` | Usage or configuration error |
 
 Output formats: `text` (default), `json` and `github`. The last prints GitHub Actions workflow
-annotations, so findings show up on the run and the pull request.
+annotations , so findings show up on the run and the pull request.
 
 ## Configuration
 
@@ -162,7 +162,7 @@ default whole.
 - **Standard library only.** The hooks run on every turn of every session on every teammate's
   machine. Nothing to install and nothing to break on a Python upgrade.
 - **Plain Markdown, no database.** The vault is the source of truth and stays readable without
-  this tool: in Obsidian, on GitHub or with `grep`.
+  this tool : in Obsidian, on GitHub or with `grep`.
 - **Deterministic generated files.** The index takes its date from the newest note, so an
   unchanged vault regenerates byte for byte and `agency-os index --check` can gate CI.
 - **Facts are updated in place.** The protocol and the templates are built around one current

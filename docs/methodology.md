@@ -17,9 +17,9 @@ hitting, and every claim in the README is either tested or measured.
 ## Where it comes from
 
 [Growth Of Influence](https://growthofinfluence.com) runs its company memory as one Obsidian
-vault of about 900 notes. Clients, projects, SOPs, decisions and meetings live there along with
+vault of about 900 notes. Clients , projects, SOPs, decisions and meetings live there along with
 an open loops register and per-person session logs. Several team members' vaults were merged
-into it. The team works in it daily through Claude Code: every session reads the vault before it
+into it. The team works in it daily through Claude Code : every session reads the vault before it
 starts and writes back what it learned.
 
 agency-os is the machinery of that vault taken out and made general. The folder spine, the four
@@ -36,12 +36,12 @@ all ran in production first.
 | Hook behaviour: briefing, session log, checkpoint | Real transcripts and real session logs |
 | Lint checks, index format, spinout scrub, sync safety rules | Hard-coded hub, folder and MOC names, now settings in `agency-os.json` |
 
-The template vault describes a fictional agency, Northwind Studio, with three clients and five
-people. It exercises every feature: open loops with one overdue, decision records, session logs,
-a client with a project and a meeting, an archived note.
+The template vault describes a fictional agency , Northwind Studio, with three clients and five
+people. It exercises every feature: open loops with one overdue, decision records , session logs,
+a client with a project and a meeting , an archived note.
 
 > [!NOTE]
-> The production vault itself is private. What is public is everything needed to build your own.
+> The production vault itself is private. What is public is everyting needed to build your own.
 
 ## Where the lint rules come from
 

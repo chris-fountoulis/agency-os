@@ -193,9 +193,9 @@ Start Claude Code in `my-agency/` and the first thing the session sees is the co
 ## Why this exists
 
 [Growth Of Influence](https://growthofinfluence.com) is a small digital marketing agency in
-Thessaloniki, Greece. Most of its work now runs through Claude Code: client deliverables,
+Thessaloniki, Greece. Most of its work now runs through Claude Code : client deliverables,
 websites, reporting and internal tools. The expensive part was never the model. It was context.
-Every new session started from zero and every teammate held a different slice of what the
+Every new session started from zero and every teammate held a diffrent slice of what the
 company knew.
 
 So the company memory moved into one Obsidian vault that every session reads at start and
@@ -274,7 +274,7 @@ vault/
 └── agency-os.json        optional configuration
 ```
 
-Every note has `tags`, `type`, `status` and `date` frontmatter, an arrow to exactly one hub
+Every note has `tags`, `type`, `status` and `date` frontmatter , an arrow to exactly one hub
 (`→ [[Sales]]`) under its title, a one line summary and a `## Related` section last.
 
 ## Commands
@@ -355,9 +355,9 @@ The full write-up, with the limits, is in [docs/methodology.md](docs/methodology
 
 ## Roadmap
 
-- `agency-os lint --fix` for the mechanical findings: MOC membership, missing hub arrows on notes
-  with an obvious parent, frontmatter defaults.
-- A "since your last session" digest per person, built from the session logs.
+- `agency-os lint --fix` for the mechanical findings : MOC membership, missing hub arrows on notes
+  with an obvious parent , frontmatter defaults.
+- A "since your last session" digest per person , built from the session logs.
 - A PyPI release, so `pipx install agency-os` replaces the git URL.
 - Hook commands that pick `python3`, `python` or `py` automatically, for Windows without edits.
 
