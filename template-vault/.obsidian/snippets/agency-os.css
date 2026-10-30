@@ -1,0 +1,36 @@
+/* agency-os: navy and gold accents for the Home dashboard and the hub notes.
+   Enabled in Settings > Appearance > CSS snippets. */
+body {
+  --aos-navy: #0D1B4B;
+  --aos-gold: #F5A623;
+}
+
+.theme-light {
+  --h1-color: var(--aos-navy);
+  --link-color: #1f3a8a;
+  --link-color-hover: var(--aos-gold);
+}
+
+.theme-dark {
+  --h1-color: var(--aos-gold);
+}
+
+.markdown-rendered h1,
+.markdown-source-view.mod-cm6 .cm-header-1 {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.markdown-rendered h2 {
+  border-bottom: 2px solid var(--aos-gold);
+  padding-bottom: 0.2em;
+}
+
+.markdown-rendered table th {
+  background: var(--aos-navy);
+  color: #ffffff;
+}
+
+.callout[data-callout="abstract"] {
+  --callout-color: 245, 166, 35;
+}

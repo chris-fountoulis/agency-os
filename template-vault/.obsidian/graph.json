@@ -1,0 +1,18 @@
+{
+  "search": "-path:\"07 - Templates\" -path:\"00 - Home/All Notes Index\"",
+  "showTags": false,
+  "showAttachments": false,
+  "hideUnresolved": false,
+  "showOrphans": true,
+  "colorGroups": [
+    { "query": "path:\"01 - Company\"", "color": { "a": 1, "rgb": 16098851 } },
+    { "query": "path:\"02 - Clients\"", "color": { "a": 1, "rgb": 4886754 } },
+    { "query": "path:\"03 - Projects\"", "color": { "a": 1, "rgb": 5025616 } },
+    { "query": "path:\"04 - Knowledge Base\"", "color": { "a": 1, "rgb": 10233776 } },
+    { "query": "path:\"05 - Meetings\"", "color": { "a": 1, "rgb": 15277667 } },
+    { "query": "path:\"08 - Sessions\"", "color": { "a": 1, "rgb": 8947848 } }
+  ],
+  "showArrow": true,
+  "lineSizeMultiplier": 1,
+  "nodeSizeMultiplier": 1.2
+}
