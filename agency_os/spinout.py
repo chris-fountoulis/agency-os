@@ -267,7 +267,7 @@ def spinout(vault_root, client, out, denylist_files=(), deny=(), depth=1, force=
         "client": client_label,
         "date": today,
         "notes": sorted(written),
-        "notes_in_source": len(vault.knowledge_notes()),
+        "notes_in_source": len([n for n in vault.knowledge_notes() if not vault.is_index(n.rel)]),
         "links_unlinked": unlinked,
         "notes_with_secrets_redacted": secrets,
         "rules": [{"rule": "rule-{}".format(i + 1), "source": s, "replacements": counts[t]}
