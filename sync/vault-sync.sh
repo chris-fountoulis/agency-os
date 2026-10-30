@@ -15,6 +15,8 @@
 #   AGENCY_OS_SYNC_QUIET      seconds without changes before committing (default 20)
 #   AGENCY_OS_SYNC_LOG        log file (default ~/.agency-os/sync.log)
 #   AGENCY_OS_SYNC_BRANCH     only sync when this branch is checked out (default: any)
+#   AGENCY_OS_SYNC_GENERATED  regex of generated files whose conflicts resolve to the remote copy
+#                             (default: All Notes Index.md)
 
 set -u
 
