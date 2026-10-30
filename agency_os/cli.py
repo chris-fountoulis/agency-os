@@ -57,7 +57,7 @@ def cmd_init(args):
         print("  created  {}".format(path if rel.startswith("..") else rel))
     vault = Vault(os.path.join(args.target, args.vault_dir))
     result = lint(vault)
-    print("\n  {} notes, lint {}".format(len(vault.knowledge_notes()),
+    print("\n  {} notes, lint {}".format(result.note_count(),
                                           "clean" if not result.findings else "{} findings".format(len(result.findings))))
     print("\nNext:")
     print("  1. Open {} in Obsidian (Open folder as vault).".format(os.path.join(args.target, args.vault_dir)))
