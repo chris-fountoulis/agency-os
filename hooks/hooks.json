@@ -1,0 +1,40 @@
+{
+  "description": "agency-os: brief every session from the vault, log every turn, checkpoint before compaction. Every hook exits 0 and stays silent when no vault is found.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/agency-os\" context --hook",
+            "timeout": 20
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/agency-os\" session-log",
+            "timeout": 20
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "manual|auto",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/agency-os\" checkpoint",
+            "timeout": 20
+          }
+        ]
+      }
+    ]
+  }
+}

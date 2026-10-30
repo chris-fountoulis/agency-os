@@ -1,0 +1,15 @@
+{
+  "name": "agency-os",
+  "displayName": "Agency OS",
+  "version": "0.1.0",
+  "description": "Run your agency on Claude Code and Obsidian: every session starts knowing the company vault, captures what it learns, and logs itself.",
+  "author": {
+    "name": "Chris Fountoulis",
+    "email": "chris@growthofinfluence.com",
+    "url": "https://growthofinfluence.com"
+  },
+  "homepage": "https://github.com/chris-fountoulis/agency-os",
+  "repository": "https://github.com/chris-fountoulis/agency-os",
+  "license": "MIT",
+  "keywords": ["obsidian", "vault", "agency", "knowledge-base", "session-log", "team"]
+}
