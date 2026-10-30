@@ -85,7 +85,7 @@ class DashCheckTest(unittest.TestCase):
         with TempDir() as d:
             write(d, "01 - Company/Sales.md", note({"tags": ["hub"], "type": "hub", "date": "2026-10-01"},
                                                    "# Sales\n\nThe sales hub, see [[Pricing]]."))
-            body = "# Pricing\n\n[[Sales]]\n\nRates — per month.\n\n```\ncode — ok\n```"
+            body = "# Pricing\n\n[[Sales]]\n\nRates \u2014 per month.\n\n```\ncode \u2014 ok\n```"
             write(d, "04 - Knowledge Base/Pricing.md", note(
                 {"tags": ["sop"], "type": "sop", "status": "active", "date": "2026-10-01"}, body))
             self.assertNotIn("dash", {c for c, _ in findings(d)})

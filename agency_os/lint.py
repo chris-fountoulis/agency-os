@@ -23,7 +23,7 @@ from .vault import code_free_lines
 ERROR = "error"
 WARNING = "warning"
 DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
-DASHES = ("—", "–")
+DASHES = ("\u2014", "\u2013")
 
 CHECKS = (
     "broken-link", "orphan", "no-hub", "empty", "generic-name",
