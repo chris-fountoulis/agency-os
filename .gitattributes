@@ -1,0 +1,11 @@
+# Shell scripts and the hook launcher must keep LF endings, even on Windows checkouts.
+*.sh            text eol=lf
+scripts/*       text eol=lf
+*.py            text eol=lf
+*.md            text eol=lf
+*.json          text eol=lf
+*.png           binary
+
+# The template vault and fixtures are content, not code: keep them out of language stats.
+template-vault/**   linguist-documentation
+tests/fixtures/**   linguist-vendored
