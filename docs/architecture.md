@@ -1,3 +1,5 @@
+<p align="right"><a href="../README.md">Back to README</a></p>
+
 # Architecture
 
 agency-os is three layers around one folder of Markdown:
@@ -12,9 +14,20 @@ agency-os is three layers around one folder of Markdown:
    every Stop, a checkpoint before compaction, lint and an index to keep the graph honest, and an
    optional git sync so a whole team shares one memory.
 
+- [The loop](#the-loop)
+- [What each hook does](#what-each-hook-does)
+- [Session log entries](#session-log-entries)
+- [The vault model](#the-vault-model)
+- [Lint checks](#lint-checks)
+- [Configuration](#configuration)
+- [Design choices](#design-choices)
+
+How the design was tested and measured is in [methodology.md](methodology.md).
+
 ## The loop
 
 ```mermaid
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#0D1B4B','primaryTextColor':'#ffffff','primaryBorderColor':'#F5A623','lineColor':'#F5A623','secondaryColor':'#FFF4E0','tertiaryColor':'#ffffff'}}}%%
 flowchart LR
     subgraph Session["Claude Code session"]
         S["SessionStart hook<br/>agency-os context"] --> W["Work<br/>(reads CLAUDE.md,<br/>Vault Guide, notes)"]
@@ -48,8 +61,10 @@ client spinout.
 All three read the hook JSON on stdin (`session_id`, `transcript_path`, `cwd`,
 `hook_event_name`, plus `last_assistant_message` and `stop_hook_active` on Stop and `trigger` on
 PreCompact), find the vault by walking up from `cwd` (a folder holding `agency-os.json`, or a
-folder with such a vault one level down), and **always exit 0**. A broken hook must never stop a
-session; failures go to stderr.
+folder with such a vault one level down).
+
+> [!IMPORTANT]
+> Every hook **always exits 0**. A broken hook must never stop a session; failures go to stderr.
 
 ### Session log entries
 
@@ -107,13 +122,21 @@ linking note's own folder when a name is ambiguous, which is also what lint repo
 | `moc` | warning | A note in a MOC folder that its MOC does not list |
 | `dash` | warning | Em or en dash in prose, when `forbid_dashes` is on |
 
-Home, Sessions and Archive are exempt from the orphan and hub checks; templates are not linted
-at all but links to them resolve. Exit codes: `0` no errors, `1` errors (or any finding with
-`--strict`), `2` usage or configuration error.
+Home, Sessions and Archive are exempt from the orphan and hub checks. Templates are not linted
+at all but links to them resolve.
+
+| Exit code | Meaning |
+|---|---|
+| `0` | No errors |
+| `1` | Errors, or any finding with `--strict` |
+| `2` | Usage or configuration error |
+
+Output formats: `text` (default), `json` and `github`. The last prints GitHub Actions workflow
+annotations, so findings show up on the run and the pull request.
 
 ## Configuration
 
-Everything is optional; `agency-os.json` at the vault root overrides the defaults in
+Everything is optional. `agency-os.json` at the vault root overrides the defaults in
 `agency_os/config.py`. Unknown keys are rejected so a typo cannot silently disable a check.
 
 ```json
@@ -129,15 +152,24 @@ Everything is optional; `agency-os.json` at the vault root overrides the default
 ```
 
 `spinout` and `session_log` merge key by key with the defaults; every other key replaces its
-default whole (so `"mocs": {}` turns the MOC check off).
+default whole.
+
+> [!TIP]
+> `"mocs": {}` turns the MOC check off.
 
 ## Design choices
 
 - **Standard library only.** The hooks run on every turn of every session on every teammate's
-  machine. Nothing to install, nothing to break on a Python upgrade.
+  machine. Nothing to install and nothing to break on a Python upgrade.
 - **Plain Markdown, no database.** The vault is the source of truth and stays readable without
-  this tool, in Obsidian, on GitHub, or with `grep`.
+  this tool: in Obsidian, on GitHub or with `grep`.
 - **Deterministic generated files.** The index takes its date from the newest note, so an
   unchanged vault regenerates byte for byte and `agency-os index --check` can gate CI.
 - **Facts are updated in place.** The protocol and the templates are built around one current
   version of each fact. History lives in git and in session logs, not in stacked corrections.
+
+---
+
+<p align="right"><a href="../README.md">Back to README</a></p>
+
+<p align="center">Built by <a href="https://chrisfountoulis.com">Chris Fountoulis</a> at <a href="https://growthofinfluence.com">Growth Of Influence</a>.</p>
