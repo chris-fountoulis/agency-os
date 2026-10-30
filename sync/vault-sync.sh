@@ -118,6 +118,31 @@ if ! git rev-parse --abbrev-ref -q '@{u}' >/dev/null 2>&1; then
   exit 0
 fi
 
+# A rebase that stops only on generated files (the All Notes Index) is not a real conflict:
+# take the remote copy and carry on; the index is regenerated after the rebase.
+GENERATED_RE="${AGENCY_OS_SYNC_GENERATED:-All Notes Index\.md\$}"
+resolve_generated() {
+  local rounds=0 conflicted
+  while [ -d "$GIT_DIR_PATH/rebase-merge" ] || [ -d "$GIT_DIR_PATH/rebase-apply" ]; do
+    rounds=$((rounds + 1)); [ "$rounds" -gt 50 ] && return 1
+    conflicted="$(git diff --name-only --diff-filter=U)"
+    [ -n "$conflicted" ] || return 1
+    printf '%s\n' "$conflicted" | grep -qvE "$GENERATED_RE" && return 1
+    while IFS= read -r f; do
+      git checkout -q --ours -- "$f" && git add -- "$f"
+    done <<< "$conflicted"
+    GIT_EDITOR=true git rebase --continue >> "$LOG" 2>&1 || true
+  done
+  log "resolved a conflict in generated files by taking the remote copy"
+  if command -v agency-os >/dev/null 2>&1; then
+    vault_dir="$(dirname "$(git ls-files | grep -E "$GENERATED_RE" | head -1)")/.."
+    if agency-os index "$vault_dir" >> "$LOG" 2>&1 && [ -n "$(git status --porcelain)" ]; then
+      git add -A && git commit -q -m "vault: regenerate the index after sync" >> "$LOG" 2>&1
+    fi
+  fi
+  return 0
+}
+
 git fetch -q origin >> "$LOG" 2>&1 || { warn_once "fetch failed (offline or no access)"; exit 0; }
 ahead=$(git rev-list --count '@{u}..HEAD')
 behind=$(git rev-list --count 'HEAD..@{u}')
@@ -129,7 +154,7 @@ if [ "$behind" -gt 0 ]; then
     else
       warn_once "could not fast-forward $BRANCH (uncommitted changes in the way)"
     fi
-  elif git rebase -q --autostash '@{u}' >> "$LOG" 2>&1; then
+  elif git rebase -q --autostash '@{u}' >> "$LOG" 2>&1 || resolve_generated; then
     log "rebased $ahead local commit(s) onto $behind remote commit(s)"
   else
     git rebase --abort >/dev/null 2>&1

@@ -31,6 +31,9 @@ tail -f ~/.agency-os/sync.log            # watch it
 
 - Behind only: fast-forward.
 - Ahead and behind: rebase local commits on top of the remote, with autostash.
+- A conflict only in generated files (the All Notes Index, or anything matching
+  `AGENCY_OS_SYNC_GENERATED`): the remote copy wins, the rebase continues, and the index is
+  regenerated if `agency-os` is on the PATH.
 - A real conflict: the rebase is aborted, nothing is lost, and you get a notification to
   resolve it by hand. Later runs keep committing locally and retry the rebase; you are
   notified once, not every minute.

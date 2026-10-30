@@ -97,6 +97,36 @@ class SyncTest(unittest.TestCase):
         self.assertIn("a.md", files)
         self.assertIn("b.md", files)
 
+    def test_generated_index_conflict_resolves_itself(self):
+        index = "00 - Home/All Notes Index.md"
+        self.write(self.a, index, "| row |\n")
+        self.sync(self.a)
+        b = self.clone("b")
+        self.write(b, index, "| row from b |\n")
+        self.write(b, "b.md", "from b\n")
+        self.sync(b)
+        self.write(self.a, index, "| row from a |\n")
+        self.write(self.a, "a.md", "from a\n")
+        self.sync(self.a)
+        files = self.remote_files()
+        self.assertIn("a.md", files)
+        self.assertIn("b.md", files)
+        self.assertEqual(git(self.a, "status", "--porcelain"), "")
+
+    def test_real_conflicts_are_left_for_a_person(self):
+        self.write(self.a, "note.md", "base\n")
+        self.sync(self.a)
+        b = self.clone("b")
+        self.write(b, "note.md", "b version\n")
+        self.sync(b)
+        self.write(self.a, "note.md", "a version\n")
+        self.sync(self.a)
+        self.assertNotIn("rebase-merge", os.listdir(os.path.join(self.a, ".git")))
+        with open(os.path.join(self.a, "note.md")) as fh:
+            self.assertEqual(fh.read(), "a version\n")
+        with open(os.path.join(self.home, ".agency-os", "sync.log")) as fh:
+            self.assertIn("resolve by hand", fh.read())
+
     def test_pause_file(self):
         open(os.path.join(self.home, ".agency-os-sync-off"), "w").close()
         self.write(self.a, "paused.md", "x\n")

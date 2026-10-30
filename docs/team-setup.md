@@ -52,7 +52,7 @@ Then, once per person:
 |---|---|
 | Session logs | One file per person per day: `2026-10-30 Sessions, alex.md` |
 | Checkpoints | One file per compaction, named by time and session id |
-| The index | Generated; regenerate after a pull instead of merging it by hand |
+| The index | Generated; the sync resolves an index-only conflict by itself and regenerates it |
 | Notes | Small, one subject each, updated in place: two people rarely edit the same lines |
 
 When two people do edit the same lines, the sync rebase stops, nothing is lost, and the person
