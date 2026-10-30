@@ -15,6 +15,7 @@ from .config import ConfigError
 from . import index as index_mod
 from . import stats as stats_mod
 from .loops import open_loops
+from .scaffold import ScaffoldError, init as scaffold_init
 from .lint import CHECKS, lint
 from .term import Painter
 from .vault import Vault, find_vault
@@ -36,6 +37,31 @@ def open_vault(path):
         return Vault(target)
     except FileNotFoundError as exc:
         raise UsageError(str(exc))
+
+
+# -- init ---------------------------------------------------------------
+
+def cmd_init(args):
+    import os
+    try:
+        created = scaffold_init(args.target, args.name, vault_dir=args.vault_dir,
+                                examples=not args.no_examples, force=args.force, hooks=args.hooks)
+    except ScaffoldError as exc:
+        raise UsageError(str(exc))
+    paint = Painter()
+    print(paint("agency-os init: {} is ready".format(args.name), "gold", "bold"))
+    for path in created:
+        rel = os.path.relpath(path)
+        print("  created  {}".format(path if rel.startswith("..") else rel))
+    vault = Vault(os.path.join(args.target, args.vault_dir))
+    result = lint(vault)
+    print("\n  {} notes, lint {}".format(len(vault.knowledge_notes()),
+                                          "clean" if not result.findings else "{} findings".format(len(result.findings))))
+    print("\nNext:")
+    print("  1. Open {} in Obsidian (Open folder as vault).".format(os.path.join(args.target, args.vault_dir)))
+    print("  2. Fill in the blanks in {}.".format(os.path.join(args.target, "CLAUDE.md")))
+    print("  3. Start Claude Code in {} with the agency-os plugin enabled.".format(args.target))
+    return EXIT_OK
 
 
 # -- lint ---------------------------------------------------------------
@@ -133,6 +159,16 @@ def build_parser():
     )
     parser.add_argument("--version", action="version", version="agency-os " + __version__)
     sub = parser.add_subparsers(dest="command", metavar="<command>")
+
+    p = sub.add_parser("init", help="scaffold a vault, CLAUDE.md and vault-autopilot.md into a folder")
+    p.add_argument("target", help="project folder to create or fill")
+    p.add_argument("--name", default="Northwind Studio", help="your company name (default: the example agency)")
+    p.add_argument("--vault-dir", default="vault", help="vault folder inside the target (default: vault)")
+    p.add_argument("--no-examples", action="store_true", help="skip the fictional clients, projects and sessions")
+    p.add_argument("--hooks", action="store_true",
+                   help="also write .claude/settings.json hooks (for use without the plugin)")
+    p.add_argument("--force", action="store_true", help="replace an existing vault folder and files")
+    p.set_defaults(func=cmd_init)
 
     p = sub.add_parser("lint", help="check vault integrity (links, orphans, hubs, frontmatter, names)")
     p.add_argument("vault", nargs="?", help="vault folder (default: nearest vault above the current folder)")

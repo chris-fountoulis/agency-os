@@ -76,7 +76,7 @@ date: 2026-10-30
 
 Body shape:
 
-1. H1 title that names the subject: `# Client: Acme Bakery`, `# SOP, Client Onboarding`.
+1. H1 title that names the subject: `# Client: Client Name`, `# SOP, Client Onboarding`.
 2. The arrow line: `→ [[Sales]]`. Exactly one node.
 3. A one line summary, so a reader knows in five seconds whether to keep reading.
 4. Sections.

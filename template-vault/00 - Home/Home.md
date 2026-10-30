@@ -36,10 +36,10 @@ date: 2026-10-30
 
 [[Clients MOC]] · [[Projects MOC]] · [[Knowledge Base MOC]] · [[Meetings MOC]] · [[Resources MOC]] · [[Decision Log]] · [[All Notes Index]]
 
+> [!tip] Keeping it clean
+> Run `agency-os lint` before you push, and `agency-os index` to refresh the index. `agency-os stats` shows how the vault is growing.
+
 ## Latest sessions
 
 - [[2026-10-28 Sessions, sam]]
 - [[2026-10-27 Sessions, jonas]]
-
-> [!tip] Keeping it clean
-> Run `agency-os lint` before you push, and `agency-os index` to refresh the index. `agency-os stats` shows how the vault is growing.
