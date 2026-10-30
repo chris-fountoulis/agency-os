@@ -6,7 +6,7 @@ date: 2026-10-30
 
 # Northwind Studio
 
-The company node above the four hubs. Northwind Studio is a five person digital marketing studio: content, paid social, websites and reporting for small businesses.
+The company node above the four hubs. Northwind Studio is a digital marketing studio: content, paid social, websites and reporting for small businesses.
 
 ## The four nodes
 

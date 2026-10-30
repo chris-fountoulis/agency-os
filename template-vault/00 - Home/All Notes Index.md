@@ -20,7 +20,7 @@ Folders: `00 - Home`, `01 - Company`, `02 - Clients`, `03 - Projects`, `04 - Kno
 | [[Decision, One Vault for the Whole Team]] | 01 | decision | done | 2026-10-05 | All company knowledge lives in one shared vault in git, read by every Claude Code session at start, instead of personal notes and chat history. |
 | [[Management]] | 01 | hub |  | 2026-10-30 | How the studio runs: the team, the decisions we have made and why, internal systems and the rules of this vault. |
 | [[Marketing]] | 01 | hub |  | 2026-10-30 | Our own brand: the studio website, our content, our channels. Client marketing work lives under the client and its project, not here. |
-| [[Northwind Studio]] | 01 | hub |  | 2026-10-30 | The company node above the four hubs. Northwind Studio is a five person digital marketing studio: content, paid social, websites and reporting for small ... |
+| [[Northwind Studio]] | 01 | hub |  | 2026-10-30 | The company node above the four hubs. Northwind Studio is a digital marketing studio: content, paid social, websites and reporting for small businesses. |
 | [[Open Loops Register]] | 01 | tracker | active | 2026-10-30 | Every commitment that is not closed: promises to clients, unanswered proposals, pending decisions. One row per loop, with an owner and a date. Read it before ... |
 | [[Product]] | 01 | hub |  | 2026-10-30 | What Northwind Studio sells, how each service is scoped and how it is delivered. |
 | [[Sales]] | 01 | hub |  | 2026-10-30 | Clients, proposals and the pipeline. Every client note links here. |

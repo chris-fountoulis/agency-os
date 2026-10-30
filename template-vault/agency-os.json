@@ -3,6 +3,6 @@
   "company_hub": "Northwind Studio",
   "forbid_dashes": true,
   "spinout": {
-    "denylist": ["internal margin", "Northwind payroll"]
+    "denylist": ["internal margin", "Northwind Studio payroll"]
   }
 }

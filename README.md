@@ -64,7 +64,7 @@ Vault lint: clean.
 ```text
 agency-os stats  template-vault  (Northwind Studio)
 
-  Notes              35   Words            4,158
+  Notes              35   Words            4,156
   Links             196   Link density     5.6 per note
   Orphan rate      0.0%   Hub coverage     100.0%
   Open loops          4   Session entries  2 (latest 2026-10-28)
