@@ -3,6 +3,7 @@ tags: [client, legal, local-seo, example]
 type: client
 status: paused
 date: 2026-10-15
+aliases: [Cobalt]
 ---
 
 # Client: Cobalt Legal

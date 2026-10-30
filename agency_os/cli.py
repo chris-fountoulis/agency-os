@@ -17,6 +17,7 @@ from . import index as index_mod
 from . import stats as stats_mod
 from .loops import open_loops
 from . import sessions
+from .spinout import SpinoutError, spinout as do_spinout
 from .scaffold import ScaffoldError, init as scaffold_init
 from .lint import CHECKS, lint
 from .term import Painter
@@ -197,6 +198,41 @@ def cmd_context(args):
     return EXIT_OK
 
 
+# -- spinout -------------------------------------------------------------
+
+def cmd_spinout(args):
+    if not args.vault:
+        raise UsageError("spinout needs the source vault path")
+    try:
+        report = do_spinout(args.vault, args.client, args.out, denylist_files=args.denylist or (),
+                            deny=args.deny or (), depth=args.depth, force=args.force)
+    except (SpinoutError, OSError) as exc:
+        raise UsageError(str(exc))
+    if args.format == "json":
+        print(json.dumps(report, indent=2, ensure_ascii=False))
+    else:
+        paint = Painter()
+        print(paint("agency-os spinout: {} -> {}".format(report["client"], args.out), "gold", "bold"))
+        print("\n  {} of {} notes selected:".format(len(report["notes"]), report["notes_in_source"]))
+        for rel in report["notes"]:
+            print("    " + rel)
+        print("\n  links to notes left behind, unlinked: {}".format(report["links_unlinked"]))
+        print("  notes with credentials redacted:     {}".format(report["notes_with_secrets_redacted"]))
+        print("  denylist rules: {} ({} replacements)".format(
+            len(report["terms"]), sum(t["replacements"] for t in report["terms"])))
+        for t in report["terms"]:
+            if t["replacements"]:
+                print("    {:<8} {:<14} {:>3}x  {}".format(t["rule"], t["source"], t["replacements"], t["term"]))
+        if report["leak_details"]:
+            print(paint("\n  LEAKS: {}".format(len(report["leak_details"])), "red", "bold"))
+            for rel, problem in report["leak_details"]:
+                print("    {}  {}".format(rel, problem))
+        else:
+            print(paint("\n  verified: no denylisted term or credential shape left in the output", "green"))
+        print("  report: {}".format(os.path.join(args.out, ".agency-os", "spinout-report.json")))
+    return EXIT_FINDINGS if report["leak_details"] else EXIT_OK
+
+
 def build_parser():
     parser = argparse.ArgumentParser(
         prog="agency-os",
@@ -234,6 +270,17 @@ def build_parser():
     p.add_argument("vault", nargs="?")
     p.add_argument("--format", choices=("text", "json"), default="text")
     p.set_defaults(func=cmd_stats)
+
+    p = sub.add_parser("spinout", help="copy one client's notes and linked knowledge into a sanitised vault")
+    p.add_argument("vault", help="source vault")
+    p.add_argument("--client", required=True, help="client note name, e.g. \"Acme Bakery\"")
+    p.add_argument("--out", required=True, help="folder for the new vault (must be outside the source)")
+    p.add_argument("--denylist", action="append", metavar="FILE", help="file with one term per line to scrub")
+    p.add_argument("--deny", action="append", metavar="TERM", help="extra term to scrub (repeatable)")
+    p.add_argument("--depth", type=int, default=1, help="levels of linked knowledge to follow (default 1)")
+    p.add_argument("--format", choices=("text", "json"), default="text")
+    p.add_argument("--force", action="store_true", help="replace a non-empty output folder")
+    p.set_defaults(func=cmd_spinout)
 
     hook_help = "reads the Claude Code hook JSON on stdin; always exits 0"
     p = sub.add_parser("session-log", help="append a session log entry from a Stop hook payload on stdin",

@@ -74,6 +74,8 @@ date: 2026-10-30
 ---
 ```
 
+Client notes may also carry `aliases: [Short Name]`: Obsidian resolves links through them, and a client spinout scrubs every other client's name and aliases.
+
 Body shape:
 
 1. H1 title that names the subject: `# Client: Client Name`, `# SOP, Client Onboarding`.

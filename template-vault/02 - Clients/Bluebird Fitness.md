@@ -3,6 +3,7 @@ tags: [client, fitness, paid-social, example]
 type: client
 status: active
 date: 2026-10-28
+aliases: [Bluebird]
 ---
 
 # Client: Bluebird Fitness

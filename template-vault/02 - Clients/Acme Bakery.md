@@ -3,6 +3,7 @@ tags: [client, bakery, social, website, example]
 type: client
 status: active
 date: 2026-10-28
+aliases: [Acme]
 ---
 
 # Client: Acme Bakery
