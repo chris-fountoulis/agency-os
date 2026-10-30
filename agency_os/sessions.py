@@ -338,7 +338,8 @@ def context(vault_root, project_dir=None, today=None, max_loops=8):
         overdue = [l for l in loops if l["overdue"]]
         lines.append("")
         lines.append("Open loops: {} open, {} overdue (`{}`).".format(len(loops), len(overdue), vault.config["open_loops"]))
-        ordered = overdue + [l for l in loops if not l["overdue"]]
+        by_due = sorted(loops, key=lambda x: (x.get("due") or "9999", x.get("loop", "")))
+        ordered = [l for l in by_due if l["overdue"]] + [l for l in by_due if not l["overdue"]]
         for l in ordered[:max_loops]:
             lines.append("- {}{} ({}, due {})".format("OVERDUE " if l["overdue"] else "", l.get("loop", "?"),
                                                      l.get("owner", "-"), l.get("due", "-")))

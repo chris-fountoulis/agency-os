@@ -49,8 +49,8 @@ Read first: `01 - Company/Vault Guide for Claude Code Sessions.md`.
 Open loops: 4 open, 1 overdue (`01 - Company/Open Loops Register.md`).
 - OVERDUE Confirm the November ad budget in writing (Sam, due 2026-11-01)
 - Send the homepage wireframe for sign-off (Lena, due 2026-11-03)
-- Decide whether to restart local SEO in January (Alex, due 2026-12-15)
 - Pick the reporting data source for paid social (Jonas, due 2026-11-07)
+- Decide whether to restart local SEO in January (Alex, due 2026-12-15)
 
 Recent sessions:
 - 2026-10-28 16:05 sam: Added a history line to [[Bluebird Fitness]] and opened a loop in the [[Open Loops Register]], due 2026-11-01, owner Sam.

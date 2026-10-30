@@ -126,6 +126,7 @@ class ContextTest(unittest.TestCase):
         self.assertIn("Open loops: 4 open, 1 overdue", text)
         self.assertIn("- OVERDUE Confirm the November ad budget in writing (Sam, due 2026-11-01)", text)
         self.assertIn("- 2026-10-28 16:05 sam: Added a history line", text)
+        self.assertLess(text.index("due 2026-11-07"), text.index("due 2026-12-15"), "loops are sorted by due date")
         self.assertIn("Vault lint: clean.", text)
 
     def test_hook_mode_is_silent_without_vault(self):
