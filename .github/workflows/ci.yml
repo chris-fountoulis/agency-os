@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: tests (Python ${{ matrix.python }}, ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python: ["3.9", "3.12"]
+        include:
+          - os: macos-latest
+            python: "3.12"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Unit tests
+        run: python -m unittest discover -s tests -v
+
+  vault:
+    name: template vault lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install the CLI
+        run: pip install .
+      - name: Lint the template vault (must be spotless)
+        run: agency-os lint template-vault --strict
+      - name: The generated index is current
+        run: agency-os index template-vault --check
+      - name: Stats
+        run: agency-os stats template-vault
+      - name: A fresh scaffold from the installed package is lint clean
+        run: |
+          agency-os init "$RUNNER_TEMP/demo" --name "CI Agency" --no-examples
+          agency-os lint "$RUNNER_TEMP/demo/vault" --strict
+          agency-os init "$RUNNER_TEMP/demo-examples" --name "CI Agency"
+          agency-os lint "$RUNNER_TEMP/demo-examples/vault" --strict
+      - name: A client spinout passes its own leak check
+        run: |
+          agency-os spinout template-vault --client "Acme Bakery" --out "$RUNNER_TEMP/acme" --depth 2
+          agency-os lint "$RUNNER_TEMP/acme" --strict
