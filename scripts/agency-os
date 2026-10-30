@@ -1,0 +1,11 @@
+#!/usr/bin/env python3
+"""Run the agency-os CLI from a plugin install or a git checkout, no pip needed."""
+import os
+import sys
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, ROOT)
+
+from agency_os.cli import main  # noqa: E402
+
+sys.exit(main())
