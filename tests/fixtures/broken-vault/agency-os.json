@@ -1,0 +1,8 @@
+{
+  "name": "Fixture Agency",
+  "forbid_dashes": true,
+  "mocs": {
+    "02 - Clients": "02 - Clients/Clients MOC.md",
+    "04 - Knowledge Base": "04 - Knowledge Base/Knowledge Base MOC.md"
+  }
+}
