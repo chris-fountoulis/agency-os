@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+.DS_Store
+# Obsidian per-user state (the shared config in template-vault/.obsidian is kept)
+workspace.json
+workspace-mobile.json
+.trash/
