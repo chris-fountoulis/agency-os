@@ -35,3 +35,7 @@ you prefer otherwise.
 
 Fixes land on the latest release. agency-os is pre-1.0, so please upgrade rather than expect a
 backport.
+
+---
+
+<p align="center">Built by <a href="https://chrisfountoulis.com">Chris Fountoulis</a> at <a href="https://growthofinfluence.com">Growth Of Influence</a>.</p>

@@ -1,10 +1,27 @@
+<p align="right"><a href="../README.md">Back to README</a></p>
+
 # FAQ
+
+Short answers to the questions people ask first. The longer story is in
+[architecture.md](architecture.md) and [methodology.md](methodology.md).
+
+- [Is this a second brain template?](#is-this-a-second-brain-template)
+- [Do I need the plugin?](#do-i-need-the-plugin)
+- [Do I need Obsidian?](#do-i-need-obsidian)
+- [Will the hooks slow my sessions down?](#will-the-hooks-slow-my-sessions-down)
+- [What if a session writes a broken link or forgets frontmatter?](#what-if-a-session-writes-a-broken-link-or-forgets-frontmatter)
+- [Can it leak secrets into git?](#can-it-leak-secrets-into-git)
+- [Why update facts in place instead of appending?](#why-update-facts-in-place-instead-of-appending)
+- [Why four hubs?](#why-four-hubs)
+- [Can different clients get their own vaults?](#can-different-clients-get-their-own-vaults)
+- [Does it work on Windows?](#does-it-work-on-windows)
+- [How big can a vault get?](#how-big-can-a-vault-get)
 
 ### Is this a second brain template?
 
 It is a company brain. Personal second-brain setups optimise for one person's thinking. An
 agency needs the opposite: one memory that five people and every Claude Code session share,
-with rules about what goes where, who wrote what, and what must never leave the building. The
+with rules about what goes where, who wrote what and what must never leave the building. The
 structure (four hubs, MOCs, open loops register, decision records) and the tooling (lint, session
 logs, client spinouts) are built for that.
 
@@ -23,9 +40,11 @@ the graph, backlinks, the Home dashboard, templates.
 
 ### Will the hooks slow my sessions down?
 
-The SessionStart briefing parses and lints the vault once. A vault of a few hundred notes takes
-well under a second. The production vault this was extracted from (about 900 notes) takes a few seconds, most of it reading files. The Stop hook reads the tail of the transcript (at most 4 MB) and
-appends a few lines. Every hook has a timeout and exits 0 on any error.
+The SessionStart briefing parses and lints the vault once. On the production vault this was
+extracted from that took about 1 s at 935 notes; the 35-note template vault takes about 0.2 s.
+Most of it is reading files. The Stop hook reads the tail of the transcript (at most 4 MB) and
+appends a few lines. Every hook has a timeout and exits 0 on any error. Measurements are in
+[methodology.md](methodology.md#what-was-measured).
 
 ### What if a session writes a broken link or forgets frontmatter?
 
@@ -35,10 +54,12 @@ lint: unresolvable links in them are written as plain text.
 
 ### Can it leak secrets into git?
 
-Three layers stand in the way: the session logger redacts credential shapes before writing, the
-sync holds back any file whose new lines look like a credential, and the protocol tells sessions
-to record where a credential lives, never its value. None of them is a substitute for not pasting
-secrets into prompts.
+Three layers stand in the way. The session logger redacts credential shapes before writing, the
+sync holds back any file whose new lines look like a credential and the protocol tells sessions
+to record where a credential lives, never its value.
+
+> [!WARNING]
+> None of them is a substitute for not pasting secrets into prompts.
 
 ### Why update facts in place instead of appending?
 
@@ -56,7 +77,7 @@ Product, Marketing, Management) for notes that could sit under two. Change them 
 
 ### Can different clients get their own vaults?
 
-Yes: `agency-os spinout`. See [client-vaults.md](client-vaults.md).
+Yes, with `agency-os spinout`. See [client-vaults.md](client-vaults.md).
 
 ### Does it work on Windows?
 
@@ -68,5 +89,11 @@ bash and git (Git Bash works); the background job templates are for macOS and Li
 ### How big can a vault get?
 
 The production vault this was extracted from is about 900 notes across several merged sub-vaults
-and lints in a few seconds, most of it disk reads. Link resolution is a dictionary lookup, so
+and lints in about a second, most of it disk reads. Link resolution is a dictionary lookup, so
 nothing here is quadratic in the number of notes.
+
+---
+
+<p align="right"><a href="../README.md">Back to README</a></p>
+
+<p align="center">Built by <a href="https://chrisfountoulis.com">Chris Fountoulis</a> at <a href="https://growthofinfluence.com">Growth Of Influence</a>.</p>

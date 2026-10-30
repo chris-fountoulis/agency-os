@@ -1,3 +1,5 @@
+<p align="right"><a href="README.md">Back to README</a></p>
+
 # Contributing
 
 Thanks for helping. agency-os is small on purpose: a standard library CLI, a Claude Code plugin
@@ -16,6 +18,10 @@ To try the plugin from your checkout: `claude --plugin-dir /path/to/agency-os`.
 
 ## Before you open a pull request
 
+> [!IMPORTANT]
+> CI runs the test suite on Python 3.9 and 3.12 on Linux and on macOS, plus a job that installs
+> the package and lints the template vault from it. Run the commands below before you push.
+
 - `python3 -m unittest discover -s tests` passes on Python 3.9.
 - `python3 scripts/agency-os lint template-vault --strict` is clean and
   `python3 scripts/agency-os index template-vault --check` passes. If you touched notes, run
@@ -29,6 +35,9 @@ To try the plugin from your checkout: `claude --plugin-dir /path/to/agency-os`.
   `fix(spinout): ...`, `docs: ...`, `test: ...`, `ci: ...`.
 
 ## Good first contributions
+
+Why the existing checks exist and how they are tested is in
+[docs/methodology.md](docs/methodology.md).
 
 - A lint check you wish you had, with a fixture note that shows it firing.
 - A credential shape `redact.py` misses (use made up values, built by concatenation in tests so
@@ -45,3 +54,9 @@ example content with `example` so `init --no-examples` can remove it, and make s
 ## License
 
 By contributing you agree that your contributions are licensed under the MIT License.
+
+---
+
+<p align="right"><a href="README.md">Back to README</a></p>
+
+<p align="center">Built by <a href="https://chrisfountoulis.com">Chris Fountoulis</a> at <a href="https://growthofinfluence.com">Growth Of Influence</a>.</p>
