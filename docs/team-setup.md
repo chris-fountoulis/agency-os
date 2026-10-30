@@ -48,7 +48,7 @@ Then, once per person:
 
 ## How conflicts are avoided
 
-| Writes | How it stays conflict-free |
+| Writes | Why they do not collide |
 |---|---|
 | Session logs | One file per person per day: `2026-10-30 Sessions, alex.md` |
 | Checkpoints | One file per compaction, named by time and session id |
