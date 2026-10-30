@@ -12,6 +12,7 @@ import sys
 
 from . import __version__
 from .config import ConfigError
+from . import index as index_mod
 from .lint import CHECKS, lint
 from .term import Painter
 from .vault import Vault, find_vault
@@ -66,6 +67,26 @@ def cmd_lint(args):
     return EXIT_OK
 
 
+# -- index --------------------------------------------------------------
+
+def cmd_index(args):
+    vault = open_vault(args.vault)
+    rel = vault.config["index"]
+    if args.check:
+        if index_mod.is_current(vault):
+            print("agency-os index: {} is up to date".format(rel))
+            return EXIT_OK
+        print("agency-os index: {} is stale; run `agency-os index`".format(rel))
+        return EXIT_FINDINGS
+    if args.stdout:
+        sys.stdout.write(index_mod.render(vault))
+        return EXIT_OK
+    _, changed = index_mod.write_index(vault)
+    count = len([n for n in vault.knowledge_notes() if n.rel != rel])
+    print("agency-os index: {} {} ({} notes)".format(rel, "written" if changed else "unchanged", count))
+    return EXIT_OK
+
+
 def build_parser():
     parser = argparse.ArgumentParser(
         prog="agency-os",
@@ -82,6 +103,12 @@ def build_parser():
     p.add_argument("--ignore", action="append", metavar="CHECK[,CHECK]",
                    help="skip checks: " + ", ".join(CHECKS))
     p.set_defaults(func=cmd_lint)
+
+    p = sub.add_parser("index", help="regenerate the All Notes Index note")
+    p.add_argument("vault", nargs="?")
+    p.add_argument("--check", action="store_true", help="exit 1 if the index is stale, write nothing")
+    p.add_argument("--stdout", action="store_true", help="print the index instead of writing it")
+    p.set_defaults(func=cmd_index)
 
     return parser
 

@@ -164,7 +164,11 @@ class Note(object):
                 if s.startswith("# "):
                     seen_h1 = True
                 continue
-            if not s or s.startswith(("#", ">", "|", "---", "!", "\u2192", "up:", "<!--")):
+            if s.startswith(">"):
+                s = s.lstrip("> ").strip()
+                if s.startswith("[!"):
+                    continue  # callout header; its first body line is fair game
+            if not s or s.startswith(("#", "|", "---", "!", "- ", "* ", "\u2192", "\u2191", "up:", "<!--")):
                 continue
             return s
         return ""
