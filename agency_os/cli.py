@@ -13,6 +13,8 @@ import sys
 from . import __version__
 from .config import ConfigError
 from . import index as index_mod
+from . import stats as stats_mod
+from .loops import open_loops
 from .lint import CHECKS, lint
 from .term import Painter
 from .vault import Vault, find_vault
@@ -87,6 +89,43 @@ def cmd_index(args):
     return EXIT_OK
 
 
+# -- stats ---------------------------------------------------------------
+
+def cmd_stats(args):
+    vault = open_vault(args.vault)
+    data = stats_mod.compute(vault)
+    if args.format == "json":
+        print(json.dumps(data, indent=2, ensure_ascii=False))
+    else:
+        print(stats_mod.render(data, args.vault or vault.root))
+    return EXIT_OK
+
+
+# -- loops ---------------------------------------------------------------
+
+def cmd_loops(args):
+    vault = open_vault(args.vault)
+    loops = open_loops(vault, today=args.today)
+    if args.overdue:
+        loops = [l for l in loops if l["overdue"]]
+    if args.owner:
+        loops = [l for l in loops if l.get("owner", "").lower() == args.owner.lower()]
+    if args.format == "json":
+        print(json.dumps(loops, indent=2, ensure_ascii=False))
+        return EXIT_OK
+    paint = Painter()
+    if not loops:
+        print("agency-os loops: nothing {}".format("overdue" if args.overdue else "open"))
+        return EXIT_OK
+    for l in sorted(loops, key=lambda x: (x.get("due") or "9999", x.get("loop", ""))):
+        flag = paint("OVERDUE", "red", "bold") + " " if l["overdue"] else ""
+        print("{}{}  {}  due {}  {}".format(flag, paint(l.get("loop", "?"), "bold"), l.get("owner", "-"),
+                                          l.get("due", "-"), paint(l.get("where", ""), "dim")))
+    overdue = sum(1 for l in loops if l["overdue"])
+    print("\nagency-os loops: {} open, {} overdue".format(len(loops), overdue))
+    return EXIT_OK
+
+
 def build_parser():
     parser = argparse.ArgumentParser(
         prog="agency-os",
@@ -109,6 +148,19 @@ def build_parser():
     p.add_argument("--check", action="store_true", help="exit 1 if the index is stale, write nothing")
     p.add_argument("--stdout", action="store_true", help="print the index instead of writing it")
     p.set_defaults(func=cmd_index)
+
+    p = sub.add_parser("stats", help="note counts, link density, orphan rate, activity")
+    p.add_argument("vault", nargs="?")
+    p.add_argument("--format", choices=("text", "json"), default="text")
+    p.set_defaults(func=cmd_stats)
+
+    p = sub.add_parser("loops", help="list open loops from the Open Loops Register")
+    p.add_argument("vault", nargs="?")
+    p.add_argument("--overdue", action="store_true", help="only loops past their due date")
+    p.add_argument("--owner", help="only loops owned by this person")
+    p.add_argument("--today", metavar="YYYY-MM-DD", help="evaluate due dates against this day")
+    p.add_argument("--format", choices=("text", "json"), default="text")
+    p.set_defaults(func=cmd_loops)
 
     return parser
 
