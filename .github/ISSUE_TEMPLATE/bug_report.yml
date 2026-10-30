@@ -1,0 +1,35 @@
+name: Bug report
+description: Something in the CLI, the hooks, the plugin or the template vault does not work as documented.
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you ran, what you expected, what you got instead.
+      placeholder: |
+        agency-os lint vault
+        expected: clean
+        got: broken-link on a link that resolves in Obsidian
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Smallest reproduction
+      description: A note or two (with frontmatter) that shows the problem. Please remove anything private.
+      render: markdown
+  - type: input
+    id: version
+    attributes:
+      label: agency-os version
+      description: Output of `agency-os --version`.
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Environment
+      description: OS, Python version, Claude Code version if the hooks are involved.
+    validations:
+      required: true

@@ -1,0 +1,22 @@
+name: Feature request
+description: Suggest a check, a command, a template or a change to the vault structure.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What does your team run into today? A real situation beats a hypothetical one.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you would like
+      description: The behaviour or change you have in mind, and how you would use it.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
