@@ -79,6 +79,17 @@ def cmd_lint(args):
     result = lint(vault, ignore=ignore)
     if args.format == "json":
         print(json.dumps(result.as_dict(), indent=2, ensure_ascii=False))
+    elif args.format == "github":
+        # GitHub Actions workflow commands: findings show up as annotations on the files.
+        prefix = os.path.relpath(vault.root) if args.vault else ""
+        for f in result.findings:
+            path = os.path.join(prefix, f.note).replace(os.sep, "/") if prefix not in ("", ".") else f.note
+            level = "error" if f.severity == "error" else "warning"
+            line = ",line={}".format(f.line) if f.line else ""
+            msg = f.message.replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
+            print("::{} file={}{},title=agency-os {}::{}".format(level, path, line, f.check, msg))
+        print("agency-os lint: {} notes, {} errors, {} warnings".format(
+            result.note_count(), len(result.errors), len(result.warnings)))
     else:
         paint = Painter()
         if not args.quiet:
@@ -258,7 +269,8 @@ def build_parser():
 
     p = sub.add_parser("lint", help="check vault integrity (links, orphans, hubs, frontmatter, names)")
     p.add_argument("vault", nargs="?", help="vault folder (default: nearest vault above the current folder)")
-    p.add_argument("--format", choices=("text", "json"), default="text")
+    p.add_argument("--format", choices=("text", "json", "github"), default="text",
+                   help="github prints GitHub Actions annotations")
     p.add_argument("--strict", action="store_true", help="exit 1 on warnings too")
     p.add_argument("--quiet", "-q", action="store_true", help="print the summary line only")
     p.add_argument("--ignore", action="append", metavar="CHECK[,CHECK]",

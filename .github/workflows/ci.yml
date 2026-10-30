@@ -39,7 +39,7 @@ jobs:
       - name: Install the CLI
         run: pip install .
       - name: Lint the template vault (must be spotless)
-        run: agency-os lint template-vault --strict
+        run: agency-os lint template-vault --strict --format github
       - name: The generated index is current
         run: agency-os index template-vault --check
       - name: Stats

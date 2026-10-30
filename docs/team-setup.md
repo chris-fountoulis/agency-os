@@ -84,6 +84,6 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install "git+https://github.com/chris-fountoulis/agency-os"
-      - run: agency-os lint vault
+      - run: agency-os lint vault --format github
       - run: agency-os index vault --check
 ```

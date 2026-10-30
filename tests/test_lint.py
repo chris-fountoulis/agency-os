@@ -137,6 +137,15 @@ class CliTest(unittest.TestCase):
         self.assertEqual(data["notes"], 15)
         self.assertEqual(set(data["findings"][0]), {"check", "severity", "note", "line", "message"})
 
+    def test_github_annotations(self):
+        code, out, _ = run_cli("lint", BROKEN, "--format", "github")
+        self.assertEqual(code, 1)
+        lines = out.splitlines()
+        self.assertIn("::error file=", lines[0])
+        self.assertTrue(any(l.endswith("[[Missing Project]] does not resolve to any note or file") and
+                            "Client A.md,line=12,title=agency-os broken-link" in l for l in lines))
+        self.assertTrue(any(l.startswith("::warning ") for l in lines))
+
     def test_bad_config_is_usage_error(self):
         with TempDir() as d:
             write(d, "agency-os.json", '{"hubz": []}')
