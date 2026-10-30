@@ -207,8 +207,15 @@ class LintResult(object):
     def warnings(self):
         return [f for f in self.findings if f.severity == WARNING]
 
+    def _counted(self):
+        # The generated index links every note; leave it out of the totals, as stats does.
+        return [n for n in self.vault.knowledge_notes() if not self.vault.is_index(n.rel)]
+
+    def note_count(self):
+        return len(self._counted())
+
     def link_count(self):
-        return sum(len(n.links) for n in self.vault.knowledge_notes())
+        return sum(len(n.links) for n in self._counted())
 
     def as_dict(self):
         counts = {}
@@ -216,7 +223,7 @@ class LintResult(object):
             counts[f.check] = counts.get(f.check, 0) + 1
         return {
             "vault": self.vault.root,
-            "notes": len(self.vault.knowledge_notes()),
+            "notes": self.note_count(),
             "links": self.link_count(),
             "errors": len(self.errors),
             "warnings": len(self.warnings),

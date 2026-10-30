@@ -82,16 +82,21 @@ def cmd_lint(args):
     else:
         paint = Painter()
         if not args.quiet:
+            current = None
             for f in result.findings:
+                if f.note != current:
+                    if current is not None:
+                        print()
+                    print(paint(f.note, "bold"))
+                    current = f.note
                 sev = paint("{:<7}".format(f.severity), "red" if f.severity == "error" else "yellow")
-                print("{}  {}  {:<15}  {}".format(sev, paint(f.location(), "bold"), f.check, f.message))
+                print("  {:>4}  {}  {:<15}  {}".format(f.line or "", sev, f.check, f.message))
             if result.findings:
                 print()
         status = paint("clean", "green") if not result.findings else "{} {}, {} {}".format(
             len(result.errors), "error" if len(result.errors) == 1 else "errors",
             len(result.warnings), "warning" if len(result.warnings) == 1 else "warnings")
-        print("agency-os lint: {} notes, {} links, {}".format(
-            len(vault.knowledge_notes()), result.link_count(), status))
+        print("agency-os lint: {} notes, {} links, {}".format(result.note_count(), result.link_count(), status))
     if result.errors or (args.strict and result.findings):
         return EXIT_FINDINGS
     return EXIT_OK
