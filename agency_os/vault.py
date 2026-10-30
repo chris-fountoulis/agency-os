@@ -16,6 +16,7 @@ WIKILINK = re.compile(r"(!?)\[\[([^\[\]\n]+?)\]\]")
 FENCE = re.compile(r"^\s*(```|~~~)")
 INLINE_CODE = re.compile(r"`[^`\n]*`")
 H1 = re.compile(r"^# (.+?)\s*$", re.M)
+RULE_CHARS = frozenset("-*_")
 
 
 class Link(object):
@@ -87,6 +88,10 @@ def code_free_lines(text):
     """Yield ``(line_number, line)`` with fenced blocks dropped and inline code blanked."""
     fence = None
     for n, line in enumerate(text.split("\n"), 1):
+        if "`" not in line and "~" not in line:
+            if fence is None:
+                yield n, line
+            continue
         m = FENCE.match(line)
         if m:
             if fence is None:
@@ -96,12 +101,16 @@ def code_free_lines(text):
             continue
         if fence is not None:
             continue
-        yield n, INLINE_CODE.sub("", line)
+        yield n, INLINE_CODE.sub("", line) if "`" in line else line
 
 
 def parse_links(text):
     links = []
+    if "[[" not in text:
+        return links
     for n, line in code_free_lines(text):
+        if "[[" not in line:
+            continue
         for m in WIKILINK.finditer(line):
             raw = m.group(2)
             target = re.split(r"\\?\|", raw, 1)[0]
@@ -119,7 +128,7 @@ class Note(object):
         self.folder = rel.split("/", 1)[0] if "/" in rel else ""
         self.text = text
         self.fields, self.body, self.has_frontmatter = parse_frontmatter(text)
-        m = H1.search(self.body)
+        m = H1.search(self.body[:20000])  # the H1 sits near the top; long transcripts need not be scanned
         self.title = m.group(1).strip() if m else self.name
         self.links = parse_links(text)
 
@@ -145,12 +154,20 @@ class Note(object):
             return [t.strip() for t in value.split(",") if t.strip()]
         return list(value)
 
+    def has_content(self):
+        """True when the body has at least one line that is not a heading, rule or blank."""
+        for line in self.body.split("\n"):
+            s = line.strip()
+            if s and not s.startswith("#") and not set(s) <= RULE_CHARS:
+                return True
+        return False
+
     def content_text(self):
         """Body text with headings, rules, frontmatter and whitespace removed."""
         kept = []
         for line in self.body.split("\n"):
             s = line.strip()
-            if not s or s.startswith("#") or set(s) <= set("-*_"):
+            if not s or s.startswith("#") or set(s) <= RULE_CHARS:
                 continue
             kept.append(s)
         return "\n".join(kept)

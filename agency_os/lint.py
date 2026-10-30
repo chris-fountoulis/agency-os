@@ -103,7 +103,7 @@ def check_empty(vault):
     for note in vault.knowledge_notes():
         if vault.in_dir(note.rel, "archive_dir"):
             continue
-        if not note.content_text().strip():
+        if not note.has_content():
             yield Finding("empty", ERROR, note.rel, "note has no content; fill it or move it to the archive")
 
 
