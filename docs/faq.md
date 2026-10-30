@@ -24,8 +24,7 @@ the graph, backlinks, the Home dashboard, templates.
 ### Will the hooks slow my sessions down?
 
 The SessionStart briefing parses and lints the vault once. A vault of a few hundred notes takes
-well under a second. The production vault this was extracted from (about 900 notes plus archived
-chat transcripts, around 100 MB of Markdown) takes a few seconds, most of it reading files. The Stop hook reads the tail of the transcript (at most 4 MB) and
+well under a second. The production vault this was extracted from (about 900 notes) takes a few seconds, most of it reading files. The Stop hook reads the tail of the transcript (at most 4 MB) and
 appends a few lines. Every hook has a timeout and exits 0 on any error.
 
 ### What if a session writes a broken link or forgets frontmatter?

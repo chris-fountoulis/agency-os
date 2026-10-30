@@ -144,7 +144,7 @@ agency-os lint: 15 notes, 23 links, 11 errors, 5 warnings
 
 ## Why this exists
 
-[Growth Of Influence](https://growthofinfluence.com) is a five person digital marketing agency.
+[Growth Of Influence](https://growthofinfluence.com) is a small digital marketing agency in Thessaloniki, Greece.
 Most of its work now runs through Claude Code: client deliverables, websites, reporting,
 internal tools. The expensive part was never the model. It was context: every new session
 started from zero, and every teammate held a different slice of what the company knew.
