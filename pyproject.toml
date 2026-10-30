@@ -1,0 +1,63 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agency-os"
+dynamic = ["version"]
+description = "Run your agency on Claude Code and Obsidian: a shared vault every session reads and writes, with lint, index, session logs and client spinouts."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "Chris Fountoulis", email = "chris@growthofinfluence.com" }]
+keywords = ["claude-code", "obsidian", "agency", "knowledge-base", "second-brain", "claude-code-plugin"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Office/Business",
+  "Topic :: Text Processing :: Markup :: Markdown",
+]
+
+[project.urls]
+Homepage = "https://github.com/chris-fountoulis/agency-os"
+Issues = "https://github.com/chris-fountoulis/agency-os/issues"
+Changelog = "https://github.com/chris-fountoulis/agency-os/blob/main/CHANGELOG.md"
+
+[project.scripts]
+agency-os = "agency_os.cli:main"
+
+[tool.setuptools]
+packages = ["agency_os"]
+
+[tool.setuptools.dynamic]
+version = { attr = "agency_os.__version__" }
+
+# The template vault and the CLAUDE.md templates live at the repo root (the
+# plugin and a git checkout use them in place). A pip install copies them to
+# <prefix>/share/agency-os/, where `agency-os init` also looks.
+# tests/test_packaging.py keeps this list in step with the folders on disk.
+[tool.setuptools.data-files]
+"share/agency-os/templates" = ["templates/CLAUDE.md", "templates/vault-autopilot.md"]
+"share/agency-os/template-vault" = ["template-vault/agency-os.json"]
+"share/agency-os/template-vault/.obsidian" = ["template-vault/.obsidian/app.json", "template-vault/.obsidian/appearance.json", "template-vault/.obsidian/bookmarks.json", "template-vault/.obsidian/core-plugins.json", "template-vault/.obsidian/graph.json", "template-vault/.obsidian/templates.json"]
+"share/agency-os/template-vault/.obsidian/snippets" = ["template-vault/.obsidian/snippets/agency-os.css"]
+"share/agency-os/template-vault/00 - Home" = ["template-vault/00 - Home/All Notes Index.md", "template-vault/00 - Home/Home.md"]
+"share/agency-os/template-vault/01 - Company" = ["template-vault/01 - Company/Decision Log.md", "template-vault/01 - Company/Management.md", "template-vault/01 - Company/Marketing.md", "template-vault/01 - Company/Northwind Studio.md", "template-vault/01 - Company/Open Loops Register.md", "template-vault/01 - Company/Product.md", "template-vault/01 - Company/Sales.md", "template-vault/01 - Company/Service Catalog.md", "template-vault/01 - Company/Team Directory.md", "template-vault/01 - Company/Vault Guide for Claude Code Sessions.md"]
+"share/agency-os/template-vault/01 - Company/Decisions" = ["template-vault/01 - Company/Decisions/Decision, Monthly Retainers Only.md", "template-vault/01 - Company/Decisions/Decision, One Vault for the Whole Team.md"]
+"share/agency-os/template-vault/02 - Clients" = ["template-vault/02 - Clients/Acme Bakery.md", "template-vault/02 - Clients/Bluebird Fitness.md", "template-vault/02 - Clients/Clients MOC.md", "template-vault/02 - Clients/Cobalt Legal.md"]
+"share/agency-os/template-vault/03 - Projects" = ["template-vault/03 - Projects/Acme Bakery Website Relaunch.md", "template-vault/03 - Projects/Monthly Reporting Automation.md", "template-vault/03 - Projects/Projects MOC.md"]
+"share/agency-os/template-vault/04 - Knowledge Base" = ["template-vault/04 - Knowledge Base/Knowledge Base MOC.md", "template-vault/04 - Knowledge Base/Playbook, Instagram Content Calendar.md", "template-vault/04 - Knowledge Base/SOP, Capturing Knowledge From a Session.md", "template-vault/04 - Knowledge Base/SOP, Client Onboarding.md", "template-vault/04 - Knowledge Base/SOP, Monthly Client Report.md", "template-vault/04 - Knowledge Base/SOP, Spinning Out a Client Vault.md"]
+"share/agency-os/template-vault/05 - Meetings" = ["template-vault/05 - Meetings/2026-10-12 Weekly Team Meeting.md", "template-vault/05 - Meetings/2026-10-20 Acme Bakery Kickoff.md", "template-vault/05 - Meetings/Meetings MOC.md"]
+"share/agency-os/template-vault/06 - Resources" = ["template-vault/06 - Resources/Glossary.md", "template-vault/06 - Resources/Resources MOC.md", "template-vault/06 - Resources/Tool Stack.md"]
+"share/agency-os/template-vault/07 - Templates" = ["template-vault/07 - Templates/Client.md", "template-vault/07 - Templates/Decision Record.md", "template-vault/07 - Templates/Meeting.md", "template-vault/07 - Templates/Open Loop.md", "template-vault/07 - Templates/Project.md", "template-vault/07 - Templates/SOP.md", "template-vault/07 - Templates/Session Log.md"]
+"share/agency-os/template-vault/08 - Sessions" = ["template-vault/08 - Sessions/2026-10-27 Sessions, jonas.md", "template-vault/08 - Sessions/2026-10-28 Sessions, sam.md"]
+"share/agency-os/template-vault/99 - Archive" = ["template-vault/99 - Archive/Rate Card 2025.md"]
