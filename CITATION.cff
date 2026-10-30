@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use agency-os in your work, please cite it as below."
+title: "agency-os: run your agency on Claude Code and Obsidian"
+type: software
+authors:
+  - family-names: Fountoulis
+    given-names: Chris
+    affiliation: Growth Of Influence
+version: 0.1.0
+date-released: 2026-10-30
+license: MIT
+repository-code: "https://github.com/chris-fountoulis/agency-os"
+url: "https://github.com/chris-fountoulis/agency-os"
+keywords:
+  - claude-code
+  - obsidian
+  - knowledge-management
+  - agency-operations
+abstract: >-
+  A shared Obsidian vault structure, capture protocol and standard library
+  tooling (lint, index, session logs, client spinouts, git sync) packaged as a
+  Claude Code plugin, so every session and every team member inherits the
+  company's memory.
