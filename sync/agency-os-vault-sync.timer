@@ -1,0 +1,12 @@
+# systemd user timer: run the vault sync every minute, starting two minutes after login.
+[Unit]
+Description=Run agency-os vault sync every minute
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=60s
+AccuracySec=10s
+Unit=agency-os-vault-sync.service
+
+[Install]
+WantedBy=timers.target

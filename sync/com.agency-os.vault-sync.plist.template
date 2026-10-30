@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  macOS launchd agent: runs vault-sync.sh every 60 seconds.
+  install.sh fills the __PLACEHOLDERS__ and loads it. By hand:
+    cp com.agency-os.vault-sync.plist.template ~/Library/LaunchAgents/com.agency-os.vault-sync.plist
+    (replace the placeholders), then
+    launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.agency-os.vault-sync.plist
+  The first run may need /bin/bash added under System Settings > Privacy & Security >
+  Full Disk Access when the vault lives in Desktop or Documents.
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.agency-os.vault-sync</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>__SCRIPT__</string>
+    <string>__REPO__</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key><string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+  </dict>
+  <key>StartInterval</key><integer>60</integer>
+  <key>RunAtLoad</key><true/>
+  <key>LowPriorityIO</key><true/>
+  <key>Nice</key><integer>10</integer>
+  <key>StandardErrorPath</key><string>__LOG_DIR__/sync.err.log</string>
+</dict>
+</plist>

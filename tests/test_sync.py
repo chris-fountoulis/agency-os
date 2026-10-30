@@ -110,5 +110,32 @@ class SyncTest(unittest.TestCase):
         self.assertNotIn("fresh.md", self.remote_files())
 
 
+class TemplatesTest(unittest.TestCase):
+    def test_launchd_plist(self):
+        import plistlib
+        with open(os.path.join(ROOT, "sync", "com.agency-os.vault-sync.plist.template"), "rb") as fh:
+            data = plistlib.load(fh)
+        self.assertEqual(data["Label"], "com.agency-os.vault-sync")
+        self.assertEqual(data["ProgramArguments"], ["/bin/bash", "__SCRIPT__", "__REPO__"])
+        self.assertEqual(data["StartInterval"], 60)
+
+    def test_systemd_units(self):
+        import configparser
+        for name, sections in (("agency-os-vault-sync.service", {"Unit", "Service"}),
+                               ("agency-os-vault-sync.timer", {"Unit", "Timer", "Install"})):
+            cp = configparser.ConfigParser(strict=False)
+            cp.optionxform = str
+            cp.read(os.path.join(ROOT, "sync", name))
+            self.assertEqual(set(cp.sections()), sections, name)
+        cp = configparser.ConfigParser(strict=False)
+        cp.read(os.path.join(ROOT, "sync", "agency-os-vault-sync.timer"))
+        self.assertEqual(cp["Timer"]["Unit"], "agency-os-vault-sync.service")
+
+    @unittest.skipUnless(shutil.which("bash"), "needs bash")
+    def test_scripts_parse(self):
+        for name in ("vault-sync.sh", "install.sh"):
+            subprocess.run(["bash", "-n", os.path.join(ROOT, "sync", name)], check=True)
+
+
 if __name__ == "__main__":
     unittest.main()
