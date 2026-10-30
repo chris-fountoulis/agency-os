@@ -13,6 +13,7 @@ person: jonas
 Written by the `agency-os session-log` Stop hook. One entry per Claude Code turn: the prompt, the files changed and the closing summary. Secrets are redacted before anything is written.
 
 ## 10:42 · session 7f3c9a10 · reporting-automation
+%% agency-os 7f3c9a10 4be1c0d2a9 %%
 
 **Prompt**
 

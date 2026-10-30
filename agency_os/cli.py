@@ -8,6 +8,7 @@ Exit codes
 
 import argparse
 import json
+import os
 import sys
 
 from . import __version__
@@ -15,6 +16,7 @@ from .config import ConfigError
 from . import index as index_mod
 from . import stats as stats_mod
 from .loops import open_loops
+from . import sessions
 from .scaffold import ScaffoldError, init as scaffold_init
 from .lint import CHECKS, lint
 from .term import Painter
@@ -42,7 +44,6 @@ def open_vault(path):
 # -- init ---------------------------------------------------------------
 
 def cmd_init(args):
-    import os
     try:
         created = scaffold_init(args.target, args.name, vault_dir=args.vault_dir,
                                 examples=not args.no_examples, force=args.force, hooks=args.hooks)
@@ -152,6 +153,50 @@ def cmd_loops(args):
     return EXIT_OK
 
 
+# -- hooks: session-log, checkpoint, context ------------------------------
+
+def _hook(args, handler):
+    """Run a hook handler. Hooks never block Claude Code: failures go to stderr, exit 0."""
+    payload = sessions.read_payload(sys.stdin)
+    try:
+        root = sessions.locate_vault(args.vault, payload)
+        if root is None:
+            return EXIT_OK
+        path = handler(payload, root)
+        if path and args.verbose:
+            sys.stderr.write("agency-os: wrote {}\n".format(path))
+    except Exception as exc:  # noqa: BLE001 - a hook must not crash the session
+        sys.stderr.write("agency-os {}: {}\n".format(args.command, exc))
+    return EXIT_OK
+
+
+def cmd_session_log(args):
+    return _hook(args, lambda payload, root: sessions.session_log(payload, root, person=args.person))
+
+
+def cmd_checkpoint(args):
+    return _hook(args, lambda payload, root: sessions.checkpoint(payload, root, person=args.person))
+
+
+def cmd_context(args):
+    payload = sessions.read_payload(sys.stdin) if args.hook else {}
+    try:
+        root = sessions.locate_vault(args.vault, payload)
+        if root is None:
+            if not args.hook:
+                raise UsageError("no vault found; pass a path")
+            return EXIT_OK
+        project = payload.get("cwd") or os.environ.get("CLAUDE_PROJECT_DIR") or os.getcwd()
+        print(sessions.context(root, project_dir=project, today=args.today))
+    except UsageError:
+        raise
+    except Exception as exc:  # noqa: BLE001
+        if not args.hook:
+            raise
+        sys.stderr.write("agency-os context: {}\n".format(exc))
+    return EXIT_OK
+
+
 def build_parser():
     parser = argparse.ArgumentParser(
         prog="agency-os",
@@ -189,6 +234,27 @@ def build_parser():
     p.add_argument("vault", nargs="?")
     p.add_argument("--format", choices=("text", "json"), default="text")
     p.set_defaults(func=cmd_stats)
+
+    hook_help = "reads the Claude Code hook JSON on stdin; always exits 0"
+    p = sub.add_parser("session-log", help="append a session log entry from a Stop hook payload on stdin",
+                       description="Append a structured session log entry. " + hook_help)
+    p.add_argument("--vault", help="vault folder (default: found from the payload cwd)")
+    p.add_argument("--person", help="name for the log file (default: git user.name)")
+    p.add_argument("--verbose", "-v", action="store_true")
+    p.set_defaults(func=cmd_session_log)
+
+    p = sub.add_parser("checkpoint", help="save a checkpoint note from a PreCompact hook payload on stdin",
+                       description="Save a checkpoint note before compaction. " + hook_help)
+    p.add_argument("--vault")
+    p.add_argument("--person")
+    p.add_argument("--verbose", "-v", action="store_true")
+    p.set_defaults(func=cmd_checkpoint)
+
+    p = sub.add_parser("context", help="print the session-start briefing: vault, open loops, recent sessions")
+    p.add_argument("vault", nargs="?")
+    p.add_argument("--hook", action="store_true", help="read the SessionStart payload on stdin, stay silent without a vault")
+    p.add_argument("--today", metavar="YYYY-MM-DD")
+    p.set_defaults(func=cmd_context)
 
     p = sub.add_parser("loops", help="list open loops from the Open Loops Register")
     p.add_argument("vault", nargs="?")

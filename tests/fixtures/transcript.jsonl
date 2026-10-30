@@ -1,0 +1,11 @@
+{"type": "user", "isSidechain": false, "message": {"role": "user", "content": "Earlier prompt about Cobalt Legal"}}
+{"type": "assistant", "isSidechain": false, "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "t0", "name": "Edit", "input": {"file_path": "/work/northwind/vault/02 - Clients/Cobalt Legal.md"}}]}}
+{"type": "user", "isSidechain": false, "message": {"role": "user", "content": [{"type": "tool_result", "tool_use_id": "t0", "content": "ok"}]}}
+{"type": "assistant", "isSidechain": false, "message": {"role": "assistant", "content": [{"type": "text", "text": "Updated Cobalt Legal."}]}}
+{"type": "user", "isSidechain": false, "message": {"role": "user", "content": [{"type": "text", "text": "Log the Acme kickoff. The booking tool password: Hunter2-Bakery!9 is in the vault manager."}]}}
+{"type": "assistant", "isSidechain": false, "message": {"role": "assistant", "content": [{"type": "text", "text": "Writing the meeting note."}, {"type": "tool_use", "id": "t1", "name": "Write", "input": {"file_path": "/work/northwind/vault/05 - Meetings/2026-10-20 Acme Bakery Kickoff.md", "content": "..."}}]}}
+{"type": "user", "isSidechain": false, "message": {"role": "user", "content": [{"type": "tool_result", "tool_use_id": "t1", "content": "ok"}]}}
+{"type": "assistant", "isSidechain": true, "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "s1", "name": "Write", "input": {"file_path": "/work/northwind/scratch/subagent.md"}}]}}
+{"type": "assistant", "isSidechain": false, "message": {"role": "assistant", "content": [{"type": "tool_use", "id": "t2", "name": "Edit", "input": {"file_path": "/work/northwind/vault/05 - Meetings/Meetings MOC.md"}}, {"type": "tool_use", "id": "t3", "name": "Bash", "input": {"command": "agency-os lint vault"}}]}}
+{"type": "user", "isSidechain": false, "message": {"role": "user", "content": [{"type": "tool_result", "tool_use_id": "t2", "content": "ok"}]}}
+{"type": "assistant", "isSidechain": false, "message": {"role": "assistant", "content": [{"type": "text", "text": "Logged the kickoff in [[2026-10-20 Acme Bakery Kickoff]] and listed it in the [[Meetings MOC]]. See also [[Nonexistent Note]]."}]}}

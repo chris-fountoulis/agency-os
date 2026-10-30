@@ -13,6 +13,7 @@ person: sam
 Written by the `agency-os session-log` Stop hook. One entry per Claude Code turn: the prompt, the files changed and the closing summary. Secrets are redacted before anything is written.
 
 ## 16:05 · session 2b81e4d7 · clients
+%% agency-os 2b81e4d7 91f3a6e0c4 %%
 
 **Prompt**
 
