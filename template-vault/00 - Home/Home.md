@@ -7,7 +7,7 @@ date: 2026-10-30
 # Northwind Studio Home
 
 > [!abstract] Company memory
-> Five people, one vault. Every Claude Code session reads this vault before it works and writes back what it learned. New here, person or session: start with the [[Vault Guide for Claude Code Sessions]].
+> One team, one vault. Every Claude Code session reads this vault before it works and writes back what it learned. New here, person or session: start with the [[Vault Guide for Claude Code Sessions]].
 
 ## The four nodes
 

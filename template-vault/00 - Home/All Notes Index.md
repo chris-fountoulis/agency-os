@@ -14,7 +14,7 @@ Folders: `00 - Home`, `01 - Company`, `02 - Clients`, `03 - Projects`, `04 - Kno
 
 | Note | Folder | Type | Status | Date | Summary |
 |---|---|---|---|---|---|
-| [[Home]] | 00 | home |  | 2026-10-30 | Five people, one vault. Every Claude Code session reads this vault before it works and writes back what it learned. New here, person or session: start with the ... |
+| [[Home]] | 00 | home |  | 2026-10-30 | One team, one vault. Every Claude Code session reads this vault before it works and writes back what it learned. New here, person or session: start with the ... |
 | [[Decision Log]] | 01 | tracker | active | 2026-10-30 | Every decision that changes how the studio works, newest first. Each one has its own note with the context, the options and the reasoning, written from the ... |
 | [[Decision, Monthly Retainers Only]] | 01 | decision | done | 2026-09-14 | Northwind Studio sells monthly retainers with a defined scope, and no longer quotes one-off projects without a retainer behind them. |
 | [[Decision, One Vault for the Whole Team]] | 01 | decision | done | 2026-10-05 | All company knowledge lives in one shared vault in git, read by every Claude Code session at start, instead of personal notes and chat history. |
