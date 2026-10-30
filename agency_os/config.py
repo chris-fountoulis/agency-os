@@ -1,9 +1,9 @@
 """Vault configuration.
 
 A vault is configured by an optional ``agency-os.json`` file at its root. Every
-key is optional; missing keys fall back to ``DEFAULTS``. Nested dictionaries
-are merged one level deep so a vault can override a single MOC or a single
-spinout setting without restating the rest.
+key is optional; missing keys fall back to ``DEFAULTS``. The ``spinout`` and
+``session_log`` groups merge key by key, so a vault can change one spinout
+setting without restating the rest; every other key replaces the default.
 """
 
 import copy
@@ -56,6 +56,8 @@ DEFAULTS = {
     "spinout": {
         # Folders whose notes may travel with a client when they are linked.
         "include_folders": ["03 - Projects", "04 - Knowledge Base", "05 - Meetings", "06 - Resources"],
+        # Linked notes of these types travel with the client as shared knowledge.
+        "knowledge_types": ["sop", "resource", "concept"],
         # Terms always scrubbed from a spinout, on top of other client names.
         "denylist": [],
         "replacement": "[redacted]",
@@ -72,10 +74,14 @@ class ConfigError(Exception):
     """Raised when agency-os.json exists but cannot be used."""
 
 
+# Settings groups merged key by key; every other key (including ``mocs``) is replaced whole.
+MERGED_GROUPS = ("spinout", "session_log")
+
+
 def merge(base, override):
     out = copy.deepcopy(base)
     for key, value in (override or {}).items():
-        if isinstance(value, dict) and isinstance(out.get(key), dict):
+        if key in MERGED_GROUPS and isinstance(value, dict) and isinstance(out.get(key), dict):
             merged = dict(out[key])
             merged.update(value)
             out[key] = merged
